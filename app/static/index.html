@@ -3,553 +3,706 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DocuBRIN | Layanan Dokumen Mandiri Terintegrasi</title>
-    <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>DocuBRIN | Portal Transformasi Dokumen Digital - BRIN</title>
+    <!-- Google Fonts: Inter & Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            --brin-red: #E7302A;
-            --brin-red-dark: #C42621;
-            --brin-red-light: #FDECEC;
-            --text-dark: #1A1A1A;
-            --text-muted: #666666;
-            --bg-body: #F8F9FA;
-            --card-bg: #FFFFFF;
-            --border-color: #DEE2E6;
-            --radius: 12px;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --brin-red: #E1251B;
+            --brin-red-dark: #B91C15;
+            --brin-blue-navy: #002C5F;
+            --brin-gray-light: #F8F9FA;
+            --brin-gray-border: #DEE2E6;
+            --text-main: #212529;
+            --text-muted: #6C757D;
+            --white: #FFFFFF;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.12);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', -apple-system, sans-serif;
         }
 
         body {
-            background-color: var(--bg-body);
-            color: var(--text-dark);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 60px 20px;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--brin-gray-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* Responsive Container */
+        h1, h2, h3, h4, .brand-font {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* --- Header & Navigation --- */
+        .top-bar {
+            background-color: var(--brin-blue-navy);
+            color: var(--white);
+            padding: 8px 0;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        header {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--brin-gray-border);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+        }
+
         .container {
-            width: 100%;
-            max-width: 1000px; /* Increased for desktop */
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
         }
 
-        .header {
-            width: 100%;
+        .logo-container {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            margin-bottom: 3rem;
-            text-align: center;
+            gap: 15px;
+            text-decoration: none;
         }
 
-        .brin-logo {
-            width: 260px;
-            height: auto;
-            margin-bottom: 1.5rem;
+        .logo-img {
+            height: 50px;
         }
 
-        .tagline {
-            font-size: 1.25rem;
-            color: var(--text-dark);
+        .logo-text {
+            border-left: 2px solid var(--brin-red);
+            padding-left: 15px;
+        }
+
+        .logo-text h1 {
+            font-size: 1.2rem;
+            color: var(--brin-blue-navy);
+            line-height: 1;
+        }
+
+        .logo-text span {
+            font-size: 0.75rem;
+            color: var(--brin-red);
             font-weight: 700;
-            margin-top: 0.5rem;
-            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* Security Info Banner */
-        .security-banner {
-            width: 100%;
-            background: #FFF;
-            border: 1px solid #BEE3F8;
-            border-left: 5px solid #3182CE;
-            padding: 24px 28px;
-            border-radius: var(--radius);
-            margin-bottom: 2.5rem;
+        .nav-links {
             display: flex;
-            gap: 20px;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.05);
+            gap: 30px;
+            list-style: none;
         }
 
-        .security-banner-icon { font-size: 32px; }
-        .security-banner-content h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; color: #2C5282; }
-        .security-banner-content p { font-size: 0.95rem; color: #4A5568; line-height: 1.6; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--brin-blue-navy);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
 
-        /* Main App Card */
-        .app-container {
-            background: var(--card-bg);
-            width: 100%;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow);
+        .nav-links a:hover {
+            color: var(--brin-red);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(135deg, var(--brin-blue-navy) 0%, #004a8f 100%);
+            color: var(--white);
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 2.5rem;
         }
 
-        .card-header {
-            background-color: #FFF;
-            padding: 32px 48px;
-            border-bottom: 1px solid var(--border-color);
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            opacity: 0.1;
         }
 
-        .card-header h2 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--text-dark);
-        }
-
-        .card-body { padding: 48px; }
-
-        .form-group { margin-bottom: 2rem; }
-
-        label {
-            display: block;
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 1rem;
-        }
-
-        select {
-            width: 100%;
-            padding: 16px 20px;
-            border: 2px solid var(--border-color);
-            border-radius: var(--radius);
-            font-size: 1.1rem;
-            background: white;
-            outline: none;
-            transition: all 0.2s;
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: calc(100% - 20px) center;
-        }
-
-        select:focus { border-color: var(--brin-red); box-shadow: 0 0 0 4px var(--brin-red-light); }
-
-        .upload-area {
-            border: 3px dashed var(--border-color);
-            border-radius: 16px;
-            padding: 60px 40px;
-            text-align: center;
-            background-color: #FAFAFA;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
             position: relative;
         }
 
-        .upload-area:hover, .upload-area.drag-over {
-            border-color: var(--brin-red);
-            background-color: var(--brin-red-light);
-            transform: scale(1.01);
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+            position: relative;
         }
 
-        .upload-icon { font-size: 64px; color: var(--brin-red); margin-bottom: 1.5rem; display: block; }
-        .upload-text { font-size: 1.1rem; color: var(--text-muted); }
-        .upload-text b { color: var(--brin-red); font-weight: 700; }
+        /* --- Main App Area --- */
+        .main-content {
+            margin-top: -60px;
+            position: relative;
+            z-index: 10;
+            padding-bottom: 80px;
+        }
 
-        #fileInput { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+        .app-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            min-height: 600px;
+        }
 
-        #file-list { margin-top: 2.5rem; display: grid; gap: 16px; }
+        .sidebar {
+            background-color: #f1f3f5;
+            padding: 40px 30px;
+            border-right: 1px solid var(--brin-gray-border);
+        }
 
-        .file-item {
-            background: #FFF;
-            border: 1px solid var(--border-color);
-            padding: 18px 24px;
-            border-radius: var(--radius);
+        .sidebar h3 {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: var(--brin-blue-navy);
+        }
+
+        .feature-option {
+            background: var(--white);
+            padding: 15px 20px;
+            border-radius: var(--radius-md);
+            margin-bottom: 15px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
-            gap: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-            transition: border-color 0.2s;
+            gap: 12px;
+            box-shadow: var(--shadow-sm);
         }
 
-        .file-item:hover { border-color: var(--brin-red); }
-        .file-info { flex: 1; min-width: 0; }
-        .file-name {
-            font-size: 1rem;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: block;
-        }
-        .file-meta { font-size: 0.85rem; color: var(--text-muted); margin-top: 2px; }
-
-        .btn-remove { color: #BBB; cursor: pointer; padding: 6px; font-size: 1.2rem; transition: all 0.2s; }
-        .btn-remove:hover { color: var(--brin-red); transform: rotate(90deg); }
-
-        .btn-submit {
-            background-color: var(--brin-red);
-            color: white;
-            border: none;
-            padding: 22px 40px;
-            border-radius: var(--radius);
+        .feature-option i {
             font-size: 1.2rem;
-            font-weight: 800;
-            width: 100%;
+            color: var(--text-muted);
+        }
+
+        .feature-option.active {
+            border-color: var(--brin-red);
+            background-color: #fff5f5;
+        }
+
+        .feature-option.active i {
+            color: var(--brin-red);
+        }
+
+        .feature-option span {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .workspace {
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .workspace-header {
+            margin-bottom: 30px;
+        }
+
+        .workspace-header h4 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* --- Upload Component --- */
+        .upload-box {
+            border: 2px dashed var(--brin-gray-border);
+            border-radius: var(--radius-lg);
+            padding: 60px 40px;
+            text-align: center;
+            background-color: #fafafa;
             cursor: pointer;
             transition: all 0.2s;
-            margin-top: 2rem;
-            letter-spacing: 0.5px;
-            box-shadow: 0 8px 20px rgba(231, 48, 42, 0.2);
+            position: relative;
         }
 
-        .btn-submit:hover { background-color: var(--brin-red-dark); transform: translateY(-2px); box-shadow: 0 12px 24px rgba(231, 48, 42, 0.3); }
-        .btn-submit:active { transform: translateY(0); }
-        .btn-submit:disabled { background-color: #DDD; color: #AAA; cursor: not-allowed; transform: none; box-shadow: none; }
-
-        /* Commitments Grid */
-        .commitments-grid {
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 3rem;
+        .upload-box:hover, .upload-box.dragover {
+            border-color: var(--brin-red);
+            background-color: #fff9f9;
         }
 
-        .commitment-card {
-            background: white;
-            padding: 28px;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-
-        .commitment-card h5 {
+        .upload-box i {
+            font-size: 3rem;
             color: var(--brin-red);
+            margin-bottom: 20px;
+        }
+
+        .upload-box p {
             font-size: 1.1rem;
-            font-weight: 800;
-            margin-bottom: 12px;
+            color: var(--text-muted);
+        }
+
+        .upload-box b {
+            color: var(--brin-red);
+        }
+
+        #fileInput {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* --- File List --- */
+        .file-list {
+            margin-top: 30px;
             display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .file-card {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: #fff;
+            border: 1px solid var(--brin-gray-border);
+            border-radius: var(--radius-md);
+            gap: 15px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .file-card i { font-size: 1.5rem; color: var(--brin-red); }
+        .file-info { flex: 1; }
+        .file-name { font-weight: 600; font-size: 0.95rem; display: block; }
+        .file-size { font-size: 0.8rem; color: var(--text-muted); }
+        .file-remove { color: #ccc; cursor: pointer; transition: color 0.2s; }
+        .file-remove:hover { color: var(--brin-red); }
+
+        /* --- Action Area --- */
+        .action-area {
+            margin-top: auto;
+            padding-top: 40px;
+        }
+
+        .btn-primary {
+            background-color: var(--brin-red);
+            color: var(--white);
+            border: none;
+            padding: 18px 30px;
+            border-radius: var(--radius-md);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
             align-items: center;
             gap: 10px;
+            box-shadow: 0 4px 12px rgba(225, 37, 27, 0.2);
         }
 
-        .commitment-card p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.7;
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--brin-red-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(225, 37, 27, 0.3);
         }
 
-        /* Status & Processing */
-        #status-card {
+        .btn-primary:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* --- Status Display --- */
+        .status-panel {
             margin-top: 30px;
-            padding: 32px;
-            background: var(--brin-red-light);
-            border-radius: 16px;
+            background: #f8f9fa;
+            border-radius: var(--radius-md);
+            padding: 25px;
             display: none;
-            border: 1px solid rgba(231, 48, 42, 0.1);
+            border: 1px solid var(--brin-gray-border);
         }
 
-        .status-header {
+        .status-info {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            margin-bottom: 16px;
+            align-items: center;
+            margin-bottom: 15px;
         }
 
-        .status-label { font-weight: 800; color: var(--brin-red); font-size: 1.1rem; }
+        .status-msg { font-weight: 700; font-size: 0.95rem; }
+        .progress-track { height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--brin-red); width: 0%; transition: width 0.4s ease; }
 
-        .progress-container { height: 10px; background: rgba(0, 0, 0, 0.05); border-radius: 5px; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--brin-red); width: 0%; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-
-        #download-btn {
+        .btn-download {
             display: none;
-            background: #28a745;
+            margin-top: 20px;
+            background-color: #28a745;
             color: white;
             text-decoration: none;
-            padding: 20px;
-            border-radius: var(--radius);
-            font-weight: 800;
+            padding: 15px;
+            border-radius: var(--radius-md);
             text-align: center;
-            margin-top: 2rem;
-            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
-            font-size: 1.2rem;
-            transition: all 0.2s;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
         }
 
-        #download-btn:hover { background: #218838; transform: translateY(-2px); }
-
+        /* --- Footer --- */
         footer {
-            padding: 40px 0;
-            color: var(--text-muted);
-            font-size: 1rem;
-            text-align: center;
-            border-top: 1px solid var(--border-color);
-            width: 100%;
+            background-color: var(--brin-blue-navy);
+            color: var(--white);
+            padding: 60px 0 30px;
         }
 
-        footer b { color: var(--text-dark); }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h5 {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h5::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: 0;
+            width: 40px; height: 3px;
+            background-color: var(--brin-red);
+        }
+
+        .footer-col p { font-size: 0.9rem; opacity: 0.8; margin-bottom: 15px; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul a { color: white; opacity: 0.8; text-decoration: none; font-size: 0.9rem; }
+        .footer-col ul a:hover { opacity: 1; color: var(--brin-red); }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        /* --- Responsiveness --- */
+        @media (max-width: 992px) {
+            .app-card { grid-template-columns: 1fr; }
+            .sidebar { border-right: none; border-bottom: 1px solid var(--brin-gray-border); padding: 30px; }
+            .workspace { padding: 30px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+        }
 
         .loader {
-            width: 24px;
-            height: 24px;
-            border: 4px solid rgba(231, 48, 42, 0.2);
-            border-left-color: var(--brin-red);
+            width: 20px; height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Tablet & Desktop Optimizations */
-        @media (min-width: 769px) {
-            .app-container { margin-top: 1rem; }
-            .card-header, .card-body { padding-left: 60px; padding-right: 60px; }
-        }
-
-        /* Mobile Adaptations */
-        @media (max-width: 768px) {
-            body { padding: 30px 15px; }
-            .tagline { font-size: 1.1rem; }
-            .brin-logo { width: 200px; }
-            .security-banner { flex-direction: column; text-align: center; padding: 20px; }
-            .card-header, .card-body { padding: 24px; }
-            .commitments-grid { grid-template-columns: 1fr; }
-            .btn-submit { padding: 18px 24px; font-size: 1.1rem; }
-        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="header">
-            <svg class="brin-logo" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
-                <rect x="0" y="10" width="60" height="60" rx="12" fill="#E7302A"/>
-                <circle cx="30" cy="40" r="15" fill="white"/>
-                <path d="M25 40 L35 40 M30 35 L30 45" stroke="#E7302A" stroke-width="4" stroke-linecap="round"/>
-                <text x="75" y="52" font-family="Inter, sans-serif" font-weight="800" font-size="36" fill="#1A1A1A">Docu</text>
-                <text x="175" y="52" font-family="Inter, sans-serif" font-weight="800" font-size="36" fill="#E7302A">BRIN</text>
-            </svg>
-            <div class="tagline">Sistem Transformasi Dokumen Digital Institusional</div>
-        </div>
-
-        <div class="security-banner">
-            <span class="security-banner-icon">🛡️</span>
-            <div class="security-banner-content">
-                <h4>Protokol Keamanan Data Berstandar Tinggi</h4>
-                <p>Sistem ini beroperasi dengan enkripsi pada lapisan aplikasi. Setiap dokumen yang Anda unggah diproses secara isolasi untuk menjamin kerahasiaan informasi riset nasional.</p>
-            </div>
-        </div>
-
-        <div class="app-container">
-            <div class="card-header">
-                <h2>Panel Konfigurasi Berkas</h2>
-            </div>
-            
-            <div class="card-body">
-                <div class="form-group">
-                    <label>Pilih Spesifikasi Layanan</label>
-                    <select id="featureSelect">
-                        <option value="convert">Konversi Instan ke Format PDF</option>
-                        <option value="merge">Konsolidasi (Merge) Beberapa PDF</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label id="fileLabel">Unggah Berkas Digital</label>
-                    <div class="upload-area" id="dropZone">
-                        <span class="upload-icon">📤</span>
-                        <p class="upload-text">Seret berkas ke sini atau <b>Klik untuk mengunggah</b></p>
-                        <input type="file" id="fileInput">
-                    </div>
-                    
-                    <div id="file-list"></div>
-                    <p id="hint-reorder" style="display:none; margin-top:15px; font-size: 0.9rem; color: var(--text-muted); text-align: center;">
-                        💡 Anda dapat menyesuaikan urutan berkas dengan mekanisme tarik-lepas.
-                    </p>
-                </div>
-
-                <button class="btn-submit" id="processBtn">EKSEKUSI PEMROSESAN DOKUMEN</button>
-
-                <div id="status-card">
-                    <div class="status-header">
-                        <span id="status-text" class="status-label">Menginisialisasi...</span>
-                        <div class="loader" id="main-loader"></div>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-bar" id="progressBar"></div>
-                    </div>
-                    <a href="#" id="download-btn">⬇️ UNDUH HASIL AKHIR (_brindoc)</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="commitments-grid">
-            <div class="commitment-card">
-                <h5>✅ Zero-Retention Policy</h5>
-                <p>Demi menjaga kedaulatan data, sistem kami menerapkan kebijakan penghapusan otomatis. Seluruh berkas asli dan hasil konversi segera dimusnahkan secara permanen dari server setelah proses unduh selesai.</p>
-            </div>
-            <div class="commitment-card">
-                <h5>🔍 Pemindaian Malware Otomatis</h5>
-                <p>Setiap dokumen melewati tahap verifikasi keamanan siber menggunakan basis data virus teraktual, memastikan ekosistem digital BRIN tetap steril dari ancaman perangkat lunak berbahaya.</p>
-            </div>
-        </div>
-
-        <footer>
-            <p>Badan Riset dan Inovasi Nasional - Republik Indonesia</p>
-            <p>Copyright <b>&copy; @cilebut 2026</b></p>
-        </footer>
+    <div class="top-bar">
+        Badan Riset dan Inovasi Nasional - Republik Indonesia
     </div>
+
+    <header>
+        <div class="container navbar">
+            <a href="#" class="logo-container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Logo_of_the_National_Research_and_Innovation_Agency_of_Indonesia.svg/512px-Logo_of_the_National_Research_and_Innovation_Agency_of_Indonesia.svg.png" alt="BRIN Logo" class="logo-img">
+                <div class="logo-text">
+                    <h1>DocuBRIN</h1>
+                    <span>Digital Transformation Portal</span>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#">Beranda</a></li>
+                <li><a href="#">Layanan</a></li>
+                <li><a href="#">Panduan</a></li>
+                <li><a href="#">Kontak</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Transformasi Dokumen Digital Institusional</h2>
+            <p>Portal mandiri untuk konversi dan pengolahan dokumen riset nasional dengan standar keamanan data tertinggi dan kebijakan nir-retensi.</p>
+        </div>
+    </section>
+
+    <main class="container main-content">
+        <div class="app-card">
+            <aside class="sidebar">
+                <h3>Pilih Layanan</h3>
+                <div class="feature-option active" data-value="convert" onclick="switchFeature('convert')">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>Konversi PDF</span>
+                </div>
+                <div class="feature-option" data-value="merge" onclick="switchFeature('merge')">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>Gabung PDF</span>
+                </div>
+                
+                <div style="margin-top: 40px; font-size: 0.8rem; color: var(--text-muted);">
+                    <p><i class="fa-solid fa-shield-halved" style="color: var(--brin-red); margin-right: 5px;"></i> Keamanan: ISO 27001</p>
+                    <p style="margin-top: 10px;">Semua file dipindai malware dan dihapus otomatis setelah 15 menit.</p>
+                </div>
+            </aside>
+
+            <section class="workspace">
+                <div class="workspace-header">
+                    <h4 id="workspaceTitle">Konversi ke Format PDF</h4>
+                    <p id="workspaceDesc" class="text-muted">Ubah dokumen Office, Gambar, atau Teks menjadi PDF standar BRIN yang aman.</p>
+                </div>
+
+                <div class="upload-box" id="dropZone">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <p>Seret file ke sini atau <b>Klik untuk telusuri</b></p>
+                    <input type="file" id="fileInput">
+                </div>
+
+                <div class="file-list" id="fileList">
+                    <!-- Files will appear here -->
+                </div>
+
+                <div class="action-area">
+                    <button class="btn-primary" id="processBtn" disabled>
+                        <span>MULAI PROSES DOKUMEN</span>
+                    </button>
+
+                    <div class="status-panel" id="statusPanel">
+                        <div class="status-info">
+                            <span class="status-msg" id="statusMsg">Menyiapkan...</span>
+                            <div class="loader" id="loader"></div>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <a href="#" class="btn-download" id="downloadBtn">
+                            <i class="fa-solid fa-download"></i> UNDUH HASIL AKHIR
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h5>Tentang DocuBRIN</h5>
+                <p>DocuBRIN merupakan platform internal Badan Riset dan Inovasi Nasional yang dirancang untuk mendukung produktivitas periset dalam mengolah dokumen digital secara aman.</p>
+                <p>Implementasi kebijakan <i>Zero Retention</i> memastikan data sensitif Anda tidak menetap di infrastruktur kami lebih lama dari yang dibutuhkan.</p>
+            </div>
+            <div class="footer-col">
+                <h5>Tautan Cepat</h5>
+                <ul>
+                    <li><a href="https://www.brin.go.id">Situs Resmi BRIN</a></li>
+                    <li><a href="https://spse.brin.go.id">LPSE BRIN</a></li>
+                    <li><a href="#">Kebijakan Privasi</a></li>
+                    <li><a href="#">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Kontak Kami</h5>
+                <p><i class="fa-solid fa-location-dot"></i> Gedung B.J. Habibie, Jl. M.H. Thamrin No. 8, Jakarta Pusat</p>
+                <p><i class="fa-solid fa-envelope"></i> helpdesk@brin.go.id</p>
+                <p><i class="fa-solid fa-phone"></i> Call Center: 122</p>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Badan Riset dan Inovasi Nasional (BRIN). Dikembangkan oleh Tim Keamanan Digital.</p>
+        </div>
+    </footer>
 
     <script>
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
-        const featureSelect = document.getElementById('featureSelect');
-        const fileList = document.getElementById('file-list');
+        const fileListDiv = document.getElementById('fileList');
         const processBtn = document.getElementById('processBtn');
-        const statusCard = document.getElementById('status-card');
-        const statusText = document.getElementById('status-text');
-        const progressBar = document.getElementById('progressBar');
-        const downloadBtn = document.getElementById('download-btn');
-        const hintReorder = document.getElementById('hint-reorder');
-        const fileLabel = document.getElementById('fileLabel');
+        const statusPanel = document.getElementById('statusPanel');
+        const statusMsg = document.getElementById('statusMsg');
+        const progressFill = document.getElementById('progressFill');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const loader = document.getElementById('loader');
 
+        let currentFeature = 'convert';
         let selectedFiles = [];
 
-        featureSelect.onchange = () => {
-            selectedFiles = [];
-            renderFileList();
-            statusCard.style.display = 'none';
-            if (featureSelect.value === 'merge') {
+        function switchFeature(feature) {
+            currentFeature = feature;
+            document.querySelectorAll('.feature-option').forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.value === feature);
+            });
+
+            const title = feature === 'convert' ? 'Konversi ke Format PDF' : 'Gabung Beberapa PDF';
+            const desc = feature === 'convert' ? 'Ubah dokumen Office, Gambar, atau Teks menjadi PDF standar BRIN.' : 'Konsolidasi beberapa file PDF menjadi satu dokumen utuh.';
+            
+            document.getElementById('workspaceTitle').innerText = title;
+            document.getElementById('workspaceDesc').innerText = desc;
+
+            if (feature === 'merge') {
                 fileInput.multiple = true;
                 fileInput.accept = ".pdf";
-                fileLabel.innerText = "Seleksi Berkas PDF untuk Dikonsolidasi";
-                hintReorder.style.display = 'block';
             } else {
                 fileInput.multiple = false;
-                fileInput.accept = ".doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.rtf";
-                fileLabel.innerText = "Seleksi Berkas Sumber";
-                hintReorder.style.display = 'none';
+                fileInput.accept = ".doc,.docx,.odt,.xls,.xlsx,.ods,.ppt,.pptx,.odp,.txt,.rtf";
             }
-        };
 
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-        ['dragleave', 'dragend'].forEach(type => { dropZone.addEventListener(type, () => dropZone.classList.remove('drag-over')); });
-        dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('drag-over'); handleFiles(e.dataTransfer.files); });
-        fileInput.addEventListener('change', (e) => { handleFiles(e.target.files); });
+            selectedFiles = [];
+            renderFiles();
+            resetStatus();
+        }
+
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
 
         function handleFiles(files) {
-            if (featureSelect.value === 'convert') { selectedFiles = [files[0]]; }
-            else { for (let file of files) { if (file.name.toLowerCase().endsWith('.pdf')) { selectedFiles.push(file); } } }
-            renderFileList();
+            if (currentFeature === 'convert') {
+                selectedFiles = [files[0]];
+            } else {
+                for (let f of files) {
+                    if (f.name.toLowerCase().endsWith('.pdf')) {
+                        selectedFiles.push(f);
+                    }
+                }
+            }
+            renderFiles();
         }
 
-        function removeFile(index) { selectedFiles.splice(index, 1); renderFileList(); }
-
-        function renderFileList() {
-            fileList.innerHTML = "";
+        function renderFiles() {
+            fileListDiv.innerHTML = '';
             selectedFiles.forEach((file, index) => {
-                const item = document.createElement('div');
-                item.className = 'file-item';
-                item.draggable = featureSelect.value === 'merge';
-                item.dataset.index = index;
-                const size = (file.size / 1024 / 1024).toFixed(2) + " MB";
-                item.innerHTML = `
-                    <span style="color: var(--brin-red); font-size: 1.5rem;">📄</span>
+                const card = document.createElement('div');
+                card.className = 'file-card';
+                card.innerHTML = `
+                    <i class="fa-solid fa-file-invoice"></i>
                     <div class="file-info">
                         <span class="file-name">${file.name}</span>
-                        <span class="file-meta">${size}</span>
+                        <span class="file-size">${(file.size / 1024 / 1024).toFixed(2)} MB</span>
                     </div>
-                    <span class="btn-remove" onclick="removeFile(${index})">✕</span>
+                    <i class="fa-solid fa-trash-can file-remove" onclick="removeFile(${index})"></i>
                 `;
-                if (featureSelect.value === 'merge') {
-                    item.addEventListener('dragstart', () => item.classList.add('dragging'));
-                    item.addEventListener('dragend', () => item.classList.remove('dragging'));
-                }
-                fileList.appendChild(item);
+                fileListDiv.appendChild(card);
             });
+            processBtn.disabled = selectedFiles.length === 0;
         }
 
-        fileList.addEventListener('dragover', e => {
-            if (featureSelect.value !== 'merge') return;
-            e.preventDefault();
-            const afterElement = getDragAfterElement(fileList, e.clientY);
-            const dragging = document.querySelector('.dragging');
-            if (afterElement == null) fileList.appendChild(dragging);
-            else fileList.insertBefore(dragging, afterElement);
-        });
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            renderFiles();
+        }
 
-        fileList.addEventListener('drop', () => {
-            if (featureSelect.value !== 'merge') return;
-            const items = [...fileList.querySelectorAll('.file-item')];
-            selectedFiles = items.map(item => selectedFiles[parseInt(item.dataset.index)]);
-            renderFileList();
-        });
-
-        function getDragAfterElement(container, y) {
-            const draggableElements = [...container.querySelectorAll('.file-item:not(.dragging)')];
-            return draggableElements.reduce((closest, child) => {
-                const box = child.getBoundingClientRect();
-                const offset = y - box.top - box.height / 2;
-                if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
-                else return closest;
-            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        function resetStatus() {
+            statusPanel.style.display = 'none';
+            downloadBtn.style.display = 'none';
+            progressFill.style.width = '0%';
         }
 
         processBtn.onclick = async () => {
-            const isMerge = featureSelect.value === 'merge';
-            if (selectedFiles.length === 0) { alert('Silakan tentukan berkas sumber terlebih dahulu.'); return; }
-            if (isMerge && selectedFiles.length < 2) { alert('Konsolidasi memerlukan minimal 2 berkas PDF.'); return; }
-            const formData = new FormData();
-            if (isMerge) selectedFiles.forEach(f => formData.append('files', f));
-            else formData.append('file', selectedFiles[0]);
+            if (selectedFiles.length === 0) return;
+            
             processBtn.disabled = true;
-            statusCard.style.display = 'block';
+            statusPanel.style.display = 'block';
             downloadBtn.style.display = 'none';
-            document.getElementById('main-loader').style.display = 'block';
-            updateStatus('Memverifikasi Integritas & Keamanan...', 30);
+            loader.style.display = 'block';
+            
+            const formData = new FormData();
+            if (currentFeature === 'merge') {
+                selectedFiles.forEach(f => formData.append('files', f));
+            } else {
+                formData.append('file', selectedFiles[0]);
+            }
+
+            updateStatus('Memindai Malware & Verifikasi...', 20);
+
             try {
-                const endpoint = isMerge ? '/upload/merge' : '/upload/convert';
+                const endpoint = currentFeature === 'merge' ? '/upload/merge' : '/upload/convert';
                 const response = await fetch(endpoint, { method: 'POST', body: formData });
-                if (!response.ok) { const err = await response.json(); throw new Error(err.detail || 'Gagal mengeksekusi permintaan'); }
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Gagal memproses file');
+                }
+
                 const data = await response.json();
                 pollStatus(data.task_id, data.file_id);
-            } catch (error) { alert('Kesalahan Sistem: ' + error.message); resetUI(); }
+            } catch (err) {
+                alert('Kesalahan: ' + err.message);
+                processBtn.disabled = false;
+                statusPanel.style.display = 'none';
+            }
         };
 
         async function pollStatus(taskId, fileId) {
-            updateStatus('Mengeksekusi Algoritma Pemrosesan...', 75);
+            updateStatus('Memproses Transformasi Dokumen...', 60);
+            
             const interval = setInterval(async () => {
                 try {
                     const response = await fetch(`/status/${taskId}`);
                     const data = await response.json();
+                    
                     if (data.status === 'SUCCESS') {
                         clearInterval(interval);
-                        updateStatus('Dokumen Berhasil Dikonformasi!', 100);
-                        document.getElementById('main-loader').style.display = 'none';
+                        updateStatus('Dokumen Siap Diunduh!', 100);
+                        loader.style.display = 'none';
                         downloadBtn.href = `/download/${fileId}`;
                         downloadBtn.style.display = 'block';
                         processBtn.disabled = false;
                     } else if (data.status === 'FAILURE') {
                         clearInterval(interval);
-                        alert('Kegagalan Operasional: ' + data.result);
-                        resetUI();
+                        alert('Gagal: ' + data.result);
+                        processBtn.disabled = false;
+                        statusPanel.style.display = 'none';
                     }
-                } catch (error) { console.error('Error:', error); }
+                } catch (e) {
+                    console.error('Polling error', e);
+                }
             }, 2000);
         }
 
-        function updateStatus(text, progress) { statusText.innerText = text; progressBar.style.width = progress + '%'; }
-        function resetUI() { processBtn.disabled = false; statusCard.style.display = 'none'; }
-        featureSelect.onchange();
+        function updateStatus(msg, progress) {
+            statusMsg.innerText = msg;
+            progressFill.style.width = progress + '%';
+        }
     </script>
 </body>
 </html>
