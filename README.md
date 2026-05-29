@@ -51,6 +51,26 @@ Aplikasi ini menggunakan teknologi modern yang terisolasi dalam kontainer:
 
 ---
 
+## 🔒 Fitur Hardening & Keamanan Terbaru
+
+Aplikasi ini telah diperkeras (*hardened*) dengan pengamanan tambahan:
+
+1.  **Container Hardening:**
+    *   **Non-Root Execution:** Semua service (API, Worker, Beat) berjalan sebagai user non-root `docubrin` untuk mencegah eskalasi hak akses.
+    *   **Network Segmentation:** Pemisahan jaringan antara `frontend` (akses publik via Nginx) dan `backend` (internal-only untuk Redis & ClamAV).
+    *   **Resource Management:** Limitasi memori pada setiap container untuk mencegah serangan *Resource Exhaustion*.
+2.  **Infrastructure Hardening:**
+    *   **Redis Security:** Dilengkapi dengan autentikasi password untuk akses broker task.
+    *   **Nginx Security Headers:** Implementasi CSP, HSTS, X-Frame-Options, dan XSS Protection.
+    *   **Rate Limiting:** Pembatasan jumlah request (10r/s) untuk mencegah brute-force dan DDoS ringan.
+3.  **Application Hardening:**
+    *   **Path Traversal Protection:** Sanitasi ketat pada nama file dan ID download untuk mencegah akses file sistem.
+    *   **Extension Filtering:** Hanya mengizinkan ekstensi file tertentu untuk proses konversi dan merging.
+    *   **Subprocess Isolation:** Penambahan *timeout* pada engine LibreOffice untuk mencegah DoS lewat dokumen kompleks/malicious.
+    *   **Dependency Pinning:** Menggunakan versi library yang spesifik (pinned) untuk mencegah serangan *supply chain*.
+
+---
+
 ## 📊 Alur Kerja (Flowchart)
 
 ```mermaid
