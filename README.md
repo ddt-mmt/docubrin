@@ -57,10 +57,10 @@ Aplikasi ini menggunakan teknologi modern yang terisolasi dalam kontainer:
 graph TD
     A[User Upload File] --> B{Size & Ext Check}
     B -- Valid --> C[Temp Storage /tmp]
-    B -- Invalid --> X[Reject & Error]
+    B -- Invalid --> X[Reject & Immediate Delete]
     C --> D{Virus Scan ClamAV}
     D -- Found Virus --> E[Immediate Delete & Reject User]
-    D -- Scan Error --> F[Fail-Closed: Reject User]
+    D -- Scan Error --> F[Fail-Closed: Reject User & Delete]
     D -- Clean --> G[Queue to Worker Celery]
     G --> H[LibreOffice Conversion]
     H --> I[Generate SHA-256 Hash]
@@ -68,6 +68,10 @@ graph TD
     J --> K[Ready for Download]
     K --> L[User Downloads]
     L --> M[Auto Cleanup 15 Mins]
+    X --> Z[End]
+    E --> Z
+    F --> Z
+    M --> Z
 ```
 
 ---
@@ -80,7 +84,7 @@ graph TD
 ### Langkah-langkah
 1.  **Clone Repository**
     ```bash
-    git clone https://github.com/username/docubrin.git
+    git clone https://github.com/ddt-mmt/docubrin.git
     cd docubrin
     ```
 2.  **Build & Run**
@@ -107,10 +111,16 @@ Berdasarkan standar **NIST SP 800-83**, pembersihan file (disinfection) otomatis
 ## 🔒 Kebijakan Privasi (Zero-Retention)
 
 Keamanan data Anda adalah prioritas kami:
+*   **Immediate Destruction:** Setiap file yang terdeteksi bervirus atau ditolak karena kesalahan sistem akan **langsung dihapus secara permanen** dari penyimpanan sementara tanpa pengecualian.
 *   **No Permanent Storage:** Kami tidak menyimpan file Anda di database atau storage permanen.
 *   **Volatile Storage:** Semua proses dilakukan di `/tmp` (RAM-backed storage jika dikonfigurasi).
-*   **Janitor Process:** Worker otomatis menghapus file sisa (input/output) setiap 15 menit, tanpa kecuali.
-*   **No Personal Data:** Kami tidak mencatat identitas pengunggah, hanya log teknis hasil scan untuk audit keamanan.
+*   **Janitor Process:** Worker otomatis menghapus file sisa (input/output) setiap 15 menit.
+
+---
+
+## 📄 Lisensi
+
+Proyek ini dilisensikan di bawah **MIT License**. Lihat file `LICENSE` untuk detail lebih lanjut.
 
 ---
 **Verified Secure by DocuBRIN Security Engine**
