@@ -20,11 +20,14 @@ MAX_FILE_SIZE = 20 * 1024 * 1024 # 20MB
 def scan_file(file_path: str):
     try:
         cd = clamd.ClamdNetworkSocket(host=CLAMD_HOST, port=3310)
-        # Mencoba ping untuk memastikan koneksi
         cd.ping()
-        result = cd.scan(file_path)
-        if result and result[file_path][0] == 'FOUND':
-            return False, result[file_path][1]
+        # Menggunakan instream agar data file dikirim langsung lewat network ke ClamAV
+        # Ini lebih reliabel daripada scan(path) jika folder tidak terbagi sempurna
+        with open(file_path, 'rb') as f:
+            result = cd.instream(f)
+            
+        if result and 'stream' in result and result['stream'][0] == 'FOUND':
+            return False, result['stream'][1]
         return True, None
     except Exception as e:
         print(f"CRITICAL: ClamAV Scan Error: {e}")
