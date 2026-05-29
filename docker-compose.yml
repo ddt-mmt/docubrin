@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: docubrin_redis
+    expose:
+      - "6379"
+
+  clamav:
+    image: clamav/clamav:latest
+    container_name: docubrin_clamav
+    # ClamAV butuh waktu untuk download database virus di awal
+    healthcheck:
+      test: ["CMD", "clamdscan", "--version"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: docubrin_api
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - CLAMD_HOST=clamav
+    volumes:
+      - docubrin_temp:/tmp/docubrin
+    depends_on:
+      - redis
+      - clamav
+
+  worker:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: docubrin_worker
+    command: celery -A tasks worker --loglevel=info --concurrency=4
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - docubrin_temp:/tmp/docubrin
+    depends_on:
+      - redis
+
+  beat:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: docubrin_janitor
+    command: celery -A tasks beat --loglevel=info
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - docubrin_temp:/tmp/docubrin
+    depends_on:
+      - redis
+
+  nginx:
+    image: nginx:alpine
+    container_name: docubrin_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - web
+
+volumes:
+  docubrin_temp:
