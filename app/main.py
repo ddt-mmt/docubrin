@@ -30,11 +30,11 @@ def scan_file(file_path: str):
             return False, result['stream'][1]
         return True, None
     except Exception as e:
-        print(f"CRITICAL: ClamAV Scan Error: {e}")
+        print(f"[SECURITY ENGINE] Critical Error: Antivirus connectivity issue.")
         # Fail-Closed: Jika scanner mati, kita tidak izinkan file masuk demi keamanan
         error_detail = (
             "Layanan pemindaian antivirus tidak tersedia. Sesuai standar ISO 27001 dan NIST SP 800-83, "
-            "kami tidak dapat memproses file tanpa verifikasi keamanan penuh demi integritas sistem."
+            "DocuBRIN Security Engine tidak dapat memproses dokumen tanpa verifikasi keamanan penuh demi integritas sistem."
         )
         return False, error_detail
 
@@ -68,10 +68,10 @@ async def upload_for_conversion(
         
         # Pesan edukatif sesuai standar keamanan
         rejection_message = (
-            f"File ditolak: Terdeteksi ancaman ({virus_info}). "
-            "Sesuai standar NIST SP 800-83 & ISO 27001, kami menerapkan kebijakan 'Reject & Destroy' "
+            f"Dokumen Ditolak: Terdeteksi ancaman keamanan ({virus_info}). "
+            "Sesuai standar NIST SP 800-83 & ISO 27001, DocuBRIN Security Engine menerapkan kebijakan 'Reject & Destroy' "
             "demi melindungi integritas data Anda. File bervirus tidak disarankan untuk 'dibersihkan' "
-            "karena risiko persistensi malware. Silakan hubungi tim IT Anda."
+            "karena risiko persistensi malware. Silakan hubungi Administrator Sistem Anda."
         )
         raise HTTPException(status_code=400, detail=rejection_message)
 
