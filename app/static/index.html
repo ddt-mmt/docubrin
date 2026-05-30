@@ -77,32 +77,155 @@
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 15px;
             text-decoration: none;
+            border-left: 4px solid var(--brin-red);
+            padding-left: 18px;
+            transition: transform 0.2s;
         }
 
-        .logo-img {
-            height: 50px;
+        .logo-container:hover {
+            transform: translateX(3px);
         }
 
         .logo-text {
-            border-left: 2px solid var(--brin-red);
-            padding-left: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            line-height: 1.1;
         }
 
-        .logo-text h1 {
-            font-size: 1.2rem;
+        .brand-name {
+            display: flex;
+            align-items: baseline;
+            gap: 2px;
+            margin-bottom: 2px;
+        }
+
+        .brand-docu {
+            font-size: 1.6rem;
             color: var(--brin-blue-navy);
-            line-height: 1;
+            font-weight: 700;
+            letter-spacing: -0.8px;
         }
 
-        .logo-text span {
-            font-size: 0.75rem;
+        .brand-brin {
+            font-size: 1.6rem;
             color: var(--brin-red);
-            font-weight: 700;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        .security-badge {
+            background-color: var(--brin-blue-navy);
+            color: var(--white);
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 12px;
+            vertical-align: middle;
+            position: relative;
+            top: -3px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin: 0;
+            padding: 0;
+            display: block;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--brin-blue-navy);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            padding: 8px 12px;
+            border-radius: var(--radius-md);
+        }
+
+        .nav-links a:hover {
+            color: var(--brin-red);
+            background-color: #f8f9fa;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            list-style: none;
+        }
+
+        /* --- Modals --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,44,95,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            position: relative;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover { color: var(--brin-red); }
+
+        .modal-header {
+            border-bottom: 3px solid var(--brin-red);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            color: var(--brin-blue-navy);
+            font-size: 1.8rem;
+        }
+
+        .reference-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .reference-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--radius-md);
+            margin-bottom: 10px;
+            border-left: 4px solid var(--brin-blue-navy);
+        }
+
+        .reference-item strong { color: var(--brin-red); display: block; margin-bottom: 5px; }
 
         .nav-links {
             display: flex;
@@ -438,26 +561,97 @@
 
     <header>
         <div class="container navbar">
-            <a href="#" class="logo-container">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Logo_of_the_National_Research_and_Innovation_Agency_of_Indonesia.svg/512px-Logo_of_the_National_Research_and_Innovation_Agency_of_Indonesia.svg.png" alt="BRIN Logo" class="logo-img">
+            <a href="#" class="logo-container" aria-label="DocuBRIN - Secured Document Gateway">
                 <div class="logo-text">
-                    <h1>DocuBRIN</h1>
-                    <span>Digital Transformation Portal</span>
+                    <div class="brand-name">
+                        <span class="brand-docu">Docu</span><span class="brand-brin">BRIN</span>
+                        <div class="security-badge">
+                            <i class="fa-solid fa-shield-halved"></i> SECURE
+                        </div>
+                    </div>
+                    <span class="logo-subtitle">Secured Document Gateway</span>
                 </div>
             </a>
             <ul class="nav-links">
-                <li><a href="#">Beranda</a></li>
-                <li><a href="#">Layanan</a></li>
-                <li><a href="#">Panduan</a></li>
-                <li><a href="#">Kontak</a></li>
+                <li><a href="#" onclick="showModal('beranda')">Beranda</a></li>
+                <li><a href="#" onclick="showModal('layanan')">Layanan</a></li>
+                <li><a href="#" onclick="showModal('panduan')">Panduan</a></li>
+                <li><a href="#" onclick="showModal('kontak')">Kontak</a></li>
             </ul>
         </div>
     </header>
 
+    <!-- Modals Overlay -->
+    <div id="modalOverlay" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeModal(true)">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Modal Templates -->
+    <template id="tpl-layanan">
+        <div class="modal-header">
+            <h2>Layanan Keamanan Dokumen</h2>
+        </div>
+        <p>DocuBRIN menyediakan layanan transformasi dokumen yang mengutamakan integritas dan kerahasiaan data sesuai standar nasional:</p>
+        <div class="reference-list">
+            <div class="reference-item">
+                <strong>🛡️ Pembersihan Malware Otomatis (NIST SP 800-83)</strong>
+                Setiap dokumen yang diunggah dipindai menggunakan engine antivirus ClamAV yang diperbarui secara berkala untuk mendeteksi ancaman persisten.
+            </div>
+            <div class="reference-item">
+                <strong>📄 Konversi Fail-Closed (ISO/IEC 27001)</strong>
+                Mekanisme konversi yang akan membatalkan proses jika terdeteksi anomali pada struktur file, mencegah eksploitasi via macro atau script aktif.
+            </div>
+            <div class="reference-item">
+                <strong>🔐 Integritas SHA-256 (Peraturan BSSN No. 4/2021)</strong>
+                Setiap output dokumen diberikan hash digital unik untuk menjamin bahwa dokumen tidak dimodifikasi setelah proses transformasi.
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-panduan">
+        <div class="modal-header">
+            <h2>Panduan Penggunaan & Regulasi</h2>
+        </div>
+        <div class="reference-list">
+            <div class="reference-item">
+                <strong>1. Unggah Dokumen</strong>
+                Gunakan layanan 'Konversi' untuk file Office/Gambar atau 'Gabung' untuk menyatukan beberapa PDF.
+            </div>
+            <div class="reference-item">
+                <strong>2. Kebijakan Retensi (Zero-Retention)</strong>
+                Sesuai dengan prinsip privasi data, file Anda akan **dihapus permanen** dari memory server dalam 15 menit setelah proses selesai atau jika sesi ditutup.
+            </div>
+            <div class="reference-item">
+                <strong>3. Dasar Hukum</strong>
+                Layanan ini mendukung implementasi **SPBE (Sistem Pemerintahan Berbasis Elektronik)** sesuai Perpres No. 95 Tahun 2018 dan standar keamanan informasi BSSN.
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-kontak">
+        <div class="modal-header">
+            <h2>Kontak & Dukungan IT</h2>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <p><strong>Pusat Data dan Informasi BRIN</strong></p>
+                <p>Gedung B.J. Habibie<br>Jl. M.H. Thamrin No. 8, Jakarta Pusat</p>
+                <p style="margin-top: 15px;"><i class="fa-solid fa-envelope"></i> helpdesk@brin.go.id</p>
+                <p><i class="fa-solid fa-phone"></i> Ext: 122 (Internal)</p>
+            </div>
+            <div style="background: #f1f3f5; padding: 20px; border-radius: var(--radius-md);">
+                <p style="font-size: 0.9rem;">Untuk laporan insiden siber atau kerentanan pada sistem DocuBRIN, silakan hubungi <strong>CSIRT BRIN</strong>.</p>
+            </div>
+        </div>
+    </template>
+
     <section class="hero">
         <div class="container">
             <h2>Transformasi Dokumen Digital Institusional</h2>
-            <p>Portal mandiri untuk konversi dan pengolahan dokumen riset nasional dengan standar keamanan data tertinggi dan kebijakan nir-retensi.</p>
+            <p>Portal mandiri untuk konversi dan pengolahan dokumen riset nasional dengan standar keamanan data tertinggi, proteksi malware, dan kebijakan nir-retensi.</p>
         </div>
     </section>
 
@@ -559,6 +753,27 @@
 
         let currentFeature = 'convert';
         let selectedFiles = [];
+
+        function showModal(type) {
+            if (type === 'beranda') {
+                closeModal(true);
+                return;
+            }
+            const template = document.getElementById(`tpl-${type}`);
+            if (template) {
+                const modalBody = document.getElementById('modalBody');
+                modalBody.innerHTML = template.innerHTML;
+                document.getElementById('modalOverlay').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(force = false) {
+            if (force === true || (event && event.target && event.target.id === 'modalOverlay')) {
+                document.getElementById('modalOverlay').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
 
         function switchFeature(feature) {
             currentFeature = feature;
