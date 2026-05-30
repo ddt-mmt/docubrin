@@ -28,13 +28,26 @@ DocuBRIN bukan sekadar alat konversi; ini adalah *security gateway* dokumen Anda
 
 ## ✨ Fitur Utama
 
-*   🚀 **Secure Conversion:** Mengonversi Office (Word, Excel, PPT) ke PDF dengan membuang elemen aktif berbahaya (Macro/VB Scripts).
-*   🔍 **Deep Virus Scanning:** Integrasi ClamAV dengan pembaruan database setiap 30 menit.
-*   📑 **Professional Merging:** Penggabungan PDF yang aman dengan pemindaian ulang setiap fragmen.
+*   🚀 **Multi-Format Secure Conversion:** Mengonversi dokumen Office (Word, Excel, PPT), **Gambar (JPG, PNG, WEBP, SVG)**, Teks, dan Web (HTML) ke format PDF yang aman.
+*   🔍 **Mandatory Virus Scanning:** Setiap unggahan **wajib** melewati engine antivirus ClamAV. Sistem menolak proses jika engine keamanan tidak tersedia (*Fail-Closed*).
+*   📑 **Professional Merging:** Penggabungan PDF yang aman dengan pemindaian ulang setiap fragmen dokumen.
+*   🛡️ **Institutional Branding & Compliance:**
+    *   **Typographic Identity:** Desain brand yang bersih dan profesional untuk jaminan visibilitas di semua jaringan.
+    *   **Regulatory Reference Modals:** Akses cepat ke referensi standar keamanan (BSSN, ISO, NIST) langsung dari antarmuka.
 *   🖋️ **Security Proofing:** 
-    *   **SHA-256 Fingerprint:** Hash unik di metadata PDF untuk bukti integritas.
-    *   **Security Watermark:** Tanda verifikasi visual di setiap halaman.
-    *   **Enhanced Metadata:** Informasi waktu scan dan ID verifikasi permanen dalam file.
+    *   **SHA-256 Fingerprint:** Hash unik di metadata PDF untuk bukti integritas (Peraturan BSSN No. 4/2021).
+    *   **Security Watermark:** Tanda verifikasi visual permanen di setiap halaman hasil proses.
+
+---
+
+## 📂 Format yang Didukung
+
+| Kategori | Ekstensi |
+| :--- | :--- |
+| **Dokumen** | `.doc`, `.docx`, `.odt`, `.rtf`, `.txt`, `.pdf`, `.html`, `.htm`, `.xml` |
+| **Spreadsheet** | `.xls`, `.xlsx`, `.ods`, `.csv` |
+| **Presentasi** | `.ppt`, `.pptx`, `.odp` |
+| **Gambar** | `.jpg`, `.jpeg`, `.png`, `.bmp`, `.gif`, `.tiff`, `.webp`, `.svg` |
 
 ---
 
