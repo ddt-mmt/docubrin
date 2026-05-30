@@ -3,6 +3,7 @@ import subprocess
 import time
 import io
 import hashlib
+import shutil
 from datetime import datetime
 from celery import Celery
 from celery.schedules import crontab
@@ -84,23 +85,29 @@ def convert_to_pdf(input_path: str):
         return "Error: Unauthorized path access"
 
     file_name = os.path.basename(input_path)
-    file_id = os.path.splitext(file_name)[0]
+    file_id, ext = os.path.splitext(file_name)
     output_path = os.path.join(TEMP_DIR, f"{file_id}.pdf")
     
     try:
-        # LibreOffice Headless Command - Using --nodefault --nologo for speed/security
-        subprocess.run([
-            'libreoffice', '--headless', '--invisible', '--nodefault', '--nologo',
-            '--convert-to', 'pdf', '--outdir', TEMP_DIR, input_path
-        ], check=True, timeout=60) # Add timeout to prevent DoS
+        if ext.lower() == '.pdf':
+            # Jika sudah PDF, kita tidak perlu konversi, cukup pastikan lokasinya benar
+            # Jika input_path sudah sama dengan output_path, tidak perlu di-rename
+            if input_path != output_path:
+                shutil.move(input_path, output_path)
+        else:
+            # LibreOffice Headless Command
+            subprocess.run([
+                'libreoffice', '--headless', '--invisible', '--nodefault', '--nologo',
+                '--convert-to', 'pdf', '--outdir', TEMP_DIR, input_path
+            ], check=True, timeout=60)
+            
+            # Cleanup original input immediately after conversion
+            if os.path.exists(input_path):
+                os.remove(input_path)
         
-        # Tambahkan metadata dan watermark
+        # Tambahkan metadata dan watermark (Berlaku untuk semua)
         if os.path.exists(output_path):
             add_security_metadata_and_watermark(output_path)
-        
-        # Cleanup original input immediately after conversion
-        if os.path.exists(input_path):
-            os.remove(input_path)
             
         return f"Converted & Secured: {file_id}.pdf"
     except subprocess.TimeoutExpired:

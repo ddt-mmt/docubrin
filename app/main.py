@@ -61,10 +61,19 @@ async def upload_for_conversion(
     file_id = f"brindoc_{timestamp}_{uuid.uuid4().hex[:6]}"
     ext = os.path.splitext(file.filename)[1].lower()
     
-    # Restrict extensions for conversion
-    allowed_exts = {'.doc', '.docx', '.odt', '.xls', '.xlsx', '.ods', '.ppt', '.pptx', '.odp', '.txt', '.rtf'}
+    # Restrict extensions for conversion - Expanding to include images and more doc formats
+    allowed_exts = {
+        # Documents
+        '.doc', '.docx', '.odt', '.rtf', '.txt', '.pdf', '.html', '.htm', '.xml',
+        # Spreadsheets
+        '.xls', '.xlsx', '.ods', '.csv',
+        # Presentations
+        '.ppt', '.pptx', '.odp',
+        # Images
+        '.jpg', '.jpeg', '.png', '.bmp', '.gif', '.tiff', '.webp', '.svg'
+    }
     if ext not in allowed_exts:
-        raise HTTPException(status_code=400, detail="Unsupported file format for conversion")
+        raise HTTPException(status_code=400, detail=f"Format file {ext} tidak didukung untuk konversi.")
 
     input_path = os.path.join(TEMP_DIR, f"{file_id}{ext}")
     

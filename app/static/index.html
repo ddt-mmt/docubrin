@@ -792,7 +792,8 @@
                 fileInput.accept = ".pdf";
             } else {
                 fileInput.multiple = false;
-                fileInput.accept = ".doc,.docx,.odt,.xls,.xlsx,.ods,.ppt,.pptx,.odp,.txt,.rtf";
+                // Full range of supported formats: Docs, Sheets, Slides, Images
+                fileInput.accept = ".doc,.docx,.odt,.rtf,.txt,.html,.htm,.xml,.xls,.xlsx,.ods,.csv,.ppt,.pptx,.odp,.jpg,.jpeg,.png,.bmp,.gif,.tiff,.webp,.svg";
             }
 
             selectedFiles = [];
